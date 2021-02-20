@@ -1,6 +1,7 @@
 package springboot.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "users")
+@NoArgsConstructor
 public class User {
 	
 	@Id
@@ -29,20 +31,29 @@ public class User {
 	@Column(name = "user_age")
 	private Integer userAge;
 
+	@Embedded
+	private Adress adress;
+
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "users_ıd ", referencedColumnName = "id")
 	private Set<Child> childs = new HashSet<>();
 
-	public User() {
-		
-	}
-	
-	public User(String firstName, String lastName, String email,Integer userAge) {
-		super();
+	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@JoinTable(name = "users_and_books",
+			joinColumns = {
+							@JoinColumn(name = "user_id",referencedColumnName = "id")},
+			inverseJoinColumns = {
+							@JoinColumn(name = "book_id")})
+
+	private Set<Book> books = new HashSet<>();
+
+	public User(String firstName, String lastName, String email, Integer userAge, Adress adress, Set<Child> childs, Set<Book> books) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.userAge = userAge;
-
+		this.adress = adress;
+		this.childs = childs;
+		this.books = books;
 	}
 }
