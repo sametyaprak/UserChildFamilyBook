@@ -34,6 +34,9 @@ public class User {
 	@Embedded
 	private Adress adress;
 
+	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	private Family family;
+
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "users_ıd ", referencedColumnName = "id")
 	private Set<Child> childs = new HashSet<>();
