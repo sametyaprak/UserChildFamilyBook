@@ -50,6 +50,10 @@ public class User {
 
 	private Set<Book> books = new HashSet<>();
 
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "users_id",referencedColumnName = "id")
+	private Set<BankAccount>bankAccounts = new HashSet<>();
+
 	public User(String firstName, String lastName, String email, Integer userAge, Adress adress, Set<Child> childs, Set<Book> books) {
 		this.firstName = firstName;
 		this.lastName = lastName;
