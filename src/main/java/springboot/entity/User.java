@@ -34,7 +34,7 @@ public class User {
 	@Embedded
 	private Adress adress;
 
-	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL)
 	private Family family;
 
 	@OneToMany(cascade = CascadeType.ALL)
@@ -54,13 +54,15 @@ public class User {
 	@JoinColumn(name = "users_id",referencedColumnName = "id")
 	private Set<BankAccount>bankAccounts = new HashSet<>();
 
-	public User(String firstName, String lastName, String email, Integer userAge, Adress adress, Set<Child> childs, Set<Book> books) {
+	public User(String firstName, String lastName, String email, Integer userAge, Adress adress, Family family, Set<Child> childs, Set<Book> books, Set<BankAccount> bankAccounts) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.userAge = userAge;
 		this.adress = adress;
+		this.family = family;
 		this.childs = childs;
 		this.books = books;
+		this.bankAccounts = bankAccounts;
 	}
 }

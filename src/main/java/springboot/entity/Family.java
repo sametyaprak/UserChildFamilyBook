@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.persistence.*;
 
 @Entity
-@Setter
 @Table
 @NoArgsConstructor
 
@@ -23,26 +22,47 @@ public class Family {
     private String motherName;
     private int motherAge;
 
-    @OneToOne(mappedBy = "family",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "family",cascade = CascadeType.ALL)
     private User user;
 
     public long getFamilyId() {
         return familyId;
     }
 
+    public void setFamilyId(long familyId) {
+        this.familyId = familyId;
+    }
+
     public String getFatherName() {
         return fatherName;
+    }
+
+    public void setFatherName(String fatherName) {
+        this.fatherName = fatherName;
     }
 
     public int getFatherAge() {
         return fatherAge;
     }
 
+    public void setFatherAge(int fatherAge) {
+        this.fatherAge = fatherAge;
+    }
+
     public String getMotherName() {
         return motherName;
+    }
+
+    public void setMotherName(String motherName) {
+        this.motherName = motherName;
     }
 
     public int getMotherAge() {
         return motherAge;
     }
+
+    public void setMotherAge(int motherAge) {
+        this.motherAge = motherAge;
+    }
+
 }
