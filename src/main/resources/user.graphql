@@ -1,0 +1,50 @@
+schema {
+    query: Query
+}
+
+
+
+type Query{
+    allUsers : [User]
+}
+type User{
+    id: Int
+    firstName:String
+    lastName:String
+    email:String
+    userAge:Int
+    adress: Adress
+    family: Family
+    childs: [Child]
+    books: [Book]
+    bankAccounts: [BankAccount]
+}
+
+type Family{
+    familyId: Int
+    fatherName:String
+    fatherAge:Int
+    motherName:String
+    motherAge:Int
+}
+type Child{
+    childId: Int
+    childName:String
+    childAge:Int
+}
+type Adress{
+    city: String
+    street:String
+    postalCode:Int
+}
+type Book{
+    bookId: Int
+    bookName:String
+    bookWriter:String
+}
+type BankAccount{
+    bankAccountId: Int
+    balance:Int
+    openDate:String
+    lastUpdate:String
+}
