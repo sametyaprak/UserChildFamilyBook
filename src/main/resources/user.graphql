@@ -39,8 +39,7 @@ type Adress{
 }
 type Book{
     bookId: Int
-    bookName:String
-    bookWriter:String
+    website: String
 }
 type BankAccount{
     bankAccountId: Int

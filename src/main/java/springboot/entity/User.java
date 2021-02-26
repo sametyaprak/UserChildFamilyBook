@@ -4,8 +4,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -50,6 +53,9 @@ public class User {
 
 	private Set<Book> books = new HashSet<>();
 
+//	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+//	private Set<Book>bookList = new HashSet<>();
+
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "users_id",referencedColumnName = "id")
 	private Set<BankAccount>bankAccounts = new HashSet<>();
@@ -62,7 +68,7 @@ public class User {
 		this.adress = adress;
 		this.family = family;
 		this.childs = childs;
-		this.books = books;
+		//this.books = books;
 		this.bankAccounts = bankAccounts;
 	}
 }

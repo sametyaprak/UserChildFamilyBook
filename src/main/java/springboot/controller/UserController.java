@@ -1,11 +1,14 @@
 package springboot.controller;
 
+import graphql.ExecutionResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import springboot.entity.User;
 import springboot.exception.ResourceNotFoundException;
 import springboot.repository.UserRepository;
+import springboot.service.GraphQLService;
 
 import java.util.List;
 
@@ -16,11 +19,22 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	GraphQLService graphQLService;
+
+	@PostMapping("/graphql")
+	public ResponseEntity<Object> getAllUsers(@RequestBody String query){
+		ExecutionResult execute = graphQLService.getGraphQL().execute(query);
+		return new ResponseEntity<Object>(execute, HttpStatus.OK);
+	}
+
 	// get all users
 	@GetMapping
 	public List<User> getAllUsers() {
 		return this.userRepository.findAll();
 	}
+
+
 	@GetMapping("/names/{firstName}")
 	public List<User>getNames(@PathVariable (value = "firstName")String firstName){
 		return this.userRepository.findByFirstName(firstName);

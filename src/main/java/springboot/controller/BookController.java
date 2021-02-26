@@ -1,35 +1,56 @@
 package springboot.controller;
 
-import graphql.ExecutionResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import springboot.entity.Book;
-import springboot.repository.BookRepository;
-import springboot.service.GraphQLService;
+
+import springboot.pojo.BookDemoqa;
+import springboot.pojo.BookPojo;
+import springboot.service.BookService;
+
+import java.util.ArrayList;
 import java.util.List;
+
+import static io.restassured.RestAssured.given;
+
 
 @RestController
 @RequestMapping("/api/books")
 public class BookController {
 
+
     @Autowired
-    private BookRepository bookRepository;
+    BookPojo bookPojo;
+
     @Autowired
-    GraphQLService graphQLService;
+    private BookService bookService;
+
+    @Autowired
+    BookDemoqa bookDemoqa;
+
+
 
     // get all books
-    @GetMapping
-    public List<Book>getAllBooks(){
-        return bookRepository.findAll();
+    @GetMapping()
+    public List<BookDemoqa>getAllBooks(){
+        return bookService.myBookList();
     }
 
-    @PostMapping("/graphql")
-    public ResponseEntity<Object> getAllUsers(@RequestBody String query){
-        ExecutionResult execute = graphQLService.getGraphQL().execute(query);
-        return new ResponseEntity<Object>(execute, HttpStatus.OK);
+    @GetMapping("/{index}")
+    public Object getBooksByBookIndex(@PathVariable (value = "index") int index){
+        return bookService.myBookList().get(index);
     }
+    @GetMapping("users/{userId}/books")
+    public Object getBooksByUserId(@PathVariable (value = "userId") int userId){
+        List<Object> userBooks = new ArrayList<>();
+        for(Integer w:bookService.getBookIdsForAUser(userId)){
+            userBooks.add(bookService.myBookList().get(w));
+        }
+        return userBooks;
+    }
+
+
+
+
 
 
 }
