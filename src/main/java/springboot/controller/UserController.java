@@ -11,7 +11,7 @@ import springboot.repository.UserRepository;
 import springboot.service.GraphQLService;
 
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -58,11 +58,19 @@ public class UserController {
 	public User updateUser(@RequestBody User user, @PathVariable ("id") long userId) {
 		 User existingUser = this.userRepository.findById(userId)
 			.orElseThrow(() -> new ResourceNotFoundException("User not found with id :" + userId));
-		 existingUser.setFirstName(user.getFirstName());
-		 existingUser.setLastName(user.getLastName());
-		 existingUser.setEmail(user.getEmail());
-		 //cocugu icine koyduk....
-		 existingUser.setChilds(user.getChilds());
+		 if(user.getFirstName()!=null){
+			 existingUser.setFirstName(user.getFirstName());
+		 }
+		if(user.getLastName()!=null){
+			existingUser.setLastName(user.getLastName());
+		}
+		if(user.getEmail()!=null){
+			existingUser.setEmail(user.getEmail());
+		}
+		if(user.getChilds()!=null){
+			//cocugu icine koyduk....
+			existingUser.setChilds(user.getChilds());
+		}
 		 return this.userRepository.save(existingUser);
 	}
 	
