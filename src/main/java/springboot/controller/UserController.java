@@ -11,6 +11,8 @@ import springboot.repository.UserRepository;
 import springboot.service.GraphQLService;
 
 import java.util.List;
+import java.util.Objects;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/users")
@@ -58,21 +60,33 @@ public class UserController {
 	public User updateUser(@RequestBody User user, @PathVariable ("id") long userId) {
 		 User existingUser = this.userRepository.findById(userId)
 			.orElseThrow(() -> new ResourceNotFoundException("User not found with id :" + userId));
-		existingUser.setFirstName(user.getFirstName());
-		existingUser.setLastName(user.getLastName());
-		existingUser.setEmail(user.getEmail());
-		existingUser.setChilds(user.getChilds());
 
-//		 if(user.getFirstName()!=null){
-//			 existingUser.setFirstName(user.getFirstName());
-//		 }
-//		if(user.getLastName()!=null){
-//			existingUser.setLastName(user.getLastName());
-//		}
-//		if(user.getEmail()!=null){
-//			existingUser.setEmail(user.getEmail());
-//		}
-//		if(user.getChilds()!=null){
+		 if(user.getFirstName()!=null && !user.getFirstName().equals("")){
+			 existingUser.setFirstName(user.getFirstName());
+		 }
+		if(user.getLastName()!=null&& !user.getLastName().equals("")){
+			existingUser.setLastName(user.getLastName());
+		}
+		if(user.getEmail()!=null && !user.getEmail().equals("")){
+			existingUser.setEmail(user.getEmail());
+		}
+		if(user.getUserAge()!=null && !user.getUserAge().equals("")){
+			existingUser.setUserAge(user.getUserAge());
+		}
+		if(user.getAdress()!=null && !user.getAdress().equals("")){
+			if(user.getAdress().getCity()!=null && !user.getAdress().getCity().equals("")){
+				existingUser.getAdress().setCity(user.getAdress().getCity());
+			}
+			if(user.getAdress().getStreet()!=null && !user.getAdress().getStreet().equals("")){
+				existingUser.getAdress().setStreet(user.getAdress().getStreet());
+			}
+			if(user.getAdress().getPostalCode()!=null && !user.getAdress().getPostalCode().equals("")){
+				existingUser.getAdress().setPostalCode(user.getAdress().getPostalCode());
+			}
+			//!String.valueOf(user.getAdress().getPostalCode()).equals("")
+			//existingUser.setAdress(user.getAdress());
+		}
+//		if(user.getChilds()!=null && !user.getChilds().equals("")){
 //			//cocugu icine koyduk....
 //			existingUser.setChilds(user.getChilds());
 //		}
@@ -81,12 +95,13 @@ public class UserController {
 	
 	// delete user by id
 	@DeleteMapping("/{id}")
-	public ResponseEntity<User> deleteUser(@PathVariable ("id") long userId){
-		 User existingUser = this.userRepository.findById(userId)
+	public String deleteUser(@PathVariable ("id") long userId){
+		 User existingUser = userRepository.findById(userId)
 					.orElseThrow(() -> new ResourceNotFoundException("User not found with id :" + userId));
-		 existingUser.setChilds(null);
-		 //this.userRepository.delete(existingUser);
-		 return ResponseEntity.ok().build();
+//		 existingUser.setChilds(null);
+//		 existingUser.setAdress(null);
+		 userRepository.deleteById(userId);
+		 return "USER DELETED...";
 	}
 
 }
